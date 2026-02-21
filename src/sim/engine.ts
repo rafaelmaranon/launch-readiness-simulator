@@ -8,6 +8,21 @@ import {
 } from "./config";
 import type { ActionType, PendingEffect, SimState } from "./types";
 
+export type WeekTelemetry = {
+  week: number;
+  action: string;
+  readinessPrev: number;
+  readinessNext: number;
+  readinessDelta: number;
+  capacity: number;
+  utilization: number;
+  regressionRisk: number;
+  scopeGrowth: number;
+  requiredCoveragePrev: number;
+  requiredCoverageNext: number;
+  throughput: number;
+};
+
 export function initSimState(): SimState {
   return { ...DEFAULTS, pendingEffects: [...DEFAULTS.pendingEffects] };
 }
@@ -85,8 +100,11 @@ export function applyAction(state: SimState, action: ActionType): SimState {
 export function stepWeek(
   state: SimState,
   action: ActionType,
-): { prev: SimState; next: SimState; throughput: number } {
+): { prev: SimState; next: SimState; throughput: number; telemetry: WeekTelemetry } {
   const prev = state;
+
+  const readinessPrev = state.readiness;
+  const requiredCoveragePrev = state.requiredCoverage;
 
   let next = applyPendingEffects(prev);
   next = applyAction(next, action);
@@ -105,7 +123,22 @@ export function stepWeek(
     week: next.week + 1,
   };
 
-  return { prev, next, throughput };
+  const telemetry: WeekTelemetry = {
+    week: prev.week,
+    action,
+    readinessPrev,
+    readinessNext: next.readiness,
+    readinessDelta: next.readiness - readinessPrev,
+    capacity: next.capacity,
+    utilization: next.utilization,
+    regressionRisk: next.regressionRisk,
+    scopeGrowth: next.scopeGrowth,
+    requiredCoveragePrev,
+    requiredCoverageNext: next.requiredCoverage,
+    throughput,
+  };
+
+  return { prev, next, throughput, telemetry };
 }
 
 export function isFinalWeek(state: SimState): boolean {
