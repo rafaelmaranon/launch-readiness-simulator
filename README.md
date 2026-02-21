@@ -1,73 +1,148 @@
-# React + TypeScript + Vite
+# Launch Readiness Simulator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A strategic decision lab for product, operations, and engineering leaders.
 
-Currently, two official plugins are available:
+This 6-week AI-augmented system dynamics simulation explores how launch readiness evolves under deadline pressure, resource constraints, and risk tradeoffs.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The goal is not to optimize a single metric — but to manage a system.
 
-## React Compiler
+## 🎯 Objective
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Reach 100% Readiness by Week 6 while keeping Regression Risk under control.
 
-## Expanding the ESLint configuration
+Success requires:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Readiness ≥ 100%
+- Regression Risk < 60
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Hitting the milestone without stability is not considered a successful launch.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🤖 AI Strategic Coach
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Beyond the deterministic simulation engine, the experience includes an AI-powered Strategic Coach.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The AI does not drive the math.
+The core system remains transparent and deterministic.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Instead, the AI:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Interprets system behavior in real time
+- Explains feedback loops and delays
+- Surfaces hidden tradeoffs
+- Detects instability patterns
+- Provides executive-level debriefs
+- Adapts insight based on the selected leadership role
+
+Example reflections:
+
+- “Scope growth is compounding required coverage faster than current capacity can absorb.”
+- “Short-term acceleration increased regression risk, which may reduce throughput in future weeks.”
+- “Utilization is stable, but systemic fragility is rising.”
+
+The AI transforms raw metrics into leadership insight.
+
+## 🧠 What This Simulator Teaches
+
+In 5 minutes, players experience:
+
+- Delays matter — Capacity increases don’t help immediately.
+- Scope compounds — Expanding requirements silently move the finish line.
+- Risk reduces throughput — Instability converts progress into rework.
+- Speed can create fragility — Short-term gains may erode long-term stability.
+- Balanced decisions outperform panic — Stability beats heroics.
+
+The simulator demonstrates how feedback loops and time delays shape outcomes in complex systems — with AI helping interpret those dynamics.
+
+## 🎮 How It Works
+
+Each week, the player:
+
+1. Reviews system state:
+   - Readiness
+   - Capacity
+   - Utilization
+   - Regression Risk
+   - Scope Growth
+   - Forecast
+2. Chooses one action:
+   - Increase Capacity
+   - Improve Scheduling
+   - Freeze Scope
+   - Push Release
+   - Invest in Tooling
+3. Advances the week and observes the system response.
+
+The simulation runs for 6 weeks.
+
+The mechanics are deterministic.
+The learning layer is AI-augmented.
+
+## 🏢 Role Lens
+
+Players choose a leadership role:
+
+- Operations Lead
+- Engineering Lead
+- Program Lead
+- General Manager
+
+Each role emphasizes different metrics and decision signals, reflecting how cross-functional leaders interpret the same system differently.
+
+The underlying system remains constant — the interpretation shifts.
+
+The AI adapts commentary based on this role perspective.
+
+## 📊 System Model (Simplified)
+
+Core state variables:
+
+- Readiness (%)
+- Capacity (units/week)
+- Utilization (0–1)
+- Regression Risk (0–100)
+- Scope Growth (% per week)
+
+Weekly update:
+
+- Required coverage compounds with scope growth.
+- Effective throughput = Capacity × Utilization × (1 − RiskFactor).
+- Readiness increases based on effective throughput.
+- Regression risk represents instability and rework tax on output.
+
+AI interprets how these variables interact — especially delayed effects and compounding dynamics.
+
+## 🧩 Design Principles
+
+- Deterministic engine for credibility
+- AI interpretation for clarity
+- No randomness
+- Clear cause → effect
+- Executive framing
+- Mobile responsive
+
+This is a leadership learning tool, not a gamified toy.
+
+## 💡 Why This Exists
+
+Launch readiness problems are not unique to one industry.
+
+They appear across:
+
+- Software
+- Hardware
+- Infrastructure
+- Logistics
+- Regulated systems
+- High-reliability environments
+
+This simulator abstracts the structural dynamics behind those challenges — and uses AI to make those dynamics visible.
+
+## 🛠 Tech Stack
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Recharts
+- AI integration layer (LLM-based strategic interpretation)
+- Fully client-side for V1.
