@@ -1,31 +1,91 @@
 import {
-  CartesianGrid,
-  Line,
-  LineChart,
   ResponsiveContainer,
-  Tooltip,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
 } from "recharts";
-import Card from "./Card";
 
-export type ReadinessPoint = { week: number; readiness: number };
+type Point = {
+  week: number;
+  readiness?: number | null;
+  regressionRisk?: number | null;
+  capacity?: number | null;
+  utilization?: number | null;
+  scopeGrowth?: number | null;
+  requiredCoverage?: number | null;
+  throughput?: number | null;
+};
 
-export default function ReadinessChart({ data }: { data: ReadinessPoint[] }) {
+export default function ReadinessChart({ data }: { data: Point[] }) {
+  const full: Point[] = Array.from({ length: 6 }, (_, i) => {
+    const week = i + 1;
+    const found = data.find((d) => d.week === week);
+    return found ? { ...found, week } : { week };
+  });
+
   return (
-    <Card>
-      <div className="mb-3 text-sm font-medium">Readiness</div>
-      <div className="h-56 w-full">
+    <div className="w-full">
+      <div className="h-[320px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={{ left: 8, right: 8, top: 8, bottom: 0 }}>
-            <CartesianGrid stroke="#e2e8f0" strokeDasharray="3 3" />
-            <XAxis dataKey="week" tick={{ fontSize: 12 }} stroke="#64748b" />
-            <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} stroke="#64748b" />
+          <LineChart data={full} margin={{ top: 10, right: 20, bottom: 0, left: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="week" tickFormatter={(v) => `${v}`} />
+            <YAxis yAxisId="left" domain={[0, "auto"]} />
+            <YAxis yAxisId="right" orientation="right" domain={[0, "auto"]} />
             <Tooltip />
-            <Line type="monotone" dataKey="readiness" stroke="#0f172a" strokeWidth={2} dot={false} />
+            <Legend />
+
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="readiness"
+              name="Readiness"
+              stroke="#111827"
+              strokeWidth={2}
+              dot
+            />
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="regressionRisk"
+              name="Regression Risk"
+              stroke="#ef4444"
+              dot={false}
+            />
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="utilization"
+              name="Utilization"
+              stroke="#3b82f6"
+              dot={false}
+            />
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="scopeGrowth"
+              name="Scope Growth"
+              stroke="#f59e0b"
+              dot={false}
+            />
+
+            <Line yAxisId="right" type="monotone" dataKey="capacity" name="Capacity" stroke="#10b981" dot={false} />
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="requiredCoverage"
+              name="Required Coverage"
+              stroke="#8b5cf6"
+              dot={false}
+            />
+            <Line yAxisId="right" type="monotone" dataKey="throughput" name="Throughput" stroke="#06b6d4" dot={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>
-    </Card>
+    </div>
   );
 }

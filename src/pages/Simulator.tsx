@@ -11,6 +11,9 @@ import Card from "../ui/components/Card";
 import Button from "../ui/components/Button";
 import DecisionLog from "../ui/components/DecisionLog";
 import CommentaryBox from "../ui/components/CommentaryBox";
+import WeekDeltaStrip from "../ui/components/WeekDeltaStrip";
+import CausalLoopDiagram from "../ui/components/CausalLoopDiagram";
+import { ModelFormulas } from "../ui/components/ModelFormulas";
 import { formatForecastLabel, getForecastProjection, getRiskStatus, getRoleLensConfig } from "../ui/uiHelpers";
 
 export default function Simulator() {
@@ -40,8 +43,16 @@ export default function Simulator() {
   const lens = getRoleLensConfig(state.role);
   const risk = getRiskStatus(sim.regressionRisk);
   const forecastHighlighted = !!lens?.highlights.includes("FORECAST");
-  const trajectoryHighlighted = !!lens?.highlights.includes("TRAJECTORY");
   const selectedAction = state.selectedAction;
+  const latestDecision = state.decisionLog[state.decisionLog.length - 1] ?? null;
+
+  const throughputByWeek: Record<number, number | null> = Object.fromEntries(
+    state.throughputHistory.map((p) => [p.week, p.throughput]),
+  );
+  const chartData = state.stateHistory.map((p) => ({
+    ...p,
+    throughput: throughputByWeek[p.week] ?? null,
+  }));
 
   return (
     <Page>
@@ -80,7 +91,14 @@ export default function Simulator() {
         ) : null}
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+      <div className="mt-6 space-y-6">
+        <Card>
+          <div className="mb-3 text-sm font-medium">Trajectory</div>
+          <ReadinessChart data={chartData} />
+        </Card>
+
+        {latestDecision ? <WeekDeltaStrip week={latestDecision.week} deltas={latestDecision.deltas} /> : null}
+
         <StatePanel
           state={sim}
           highlight={(() => {
@@ -94,7 +112,6 @@ export default function Simulator() {
             return map;
           })()}
         />
-        <ReadinessChart data={state.history} highlight={trajectoryHighlighted} />
       </div>
 
       <div className="mt-6 pb-24 sm:pb-0">
@@ -162,6 +179,12 @@ export default function Simulator() {
           </Card>
         </div>
       </div>
+
+      <div className="mt-8">
+        <CausalLoopDiagram />
+      </div>
+
+      <ModelFormulas />
 
       <div className="fixed inset-x-0 bottom-0 border-t border-slate-200 bg-white/90 backdrop-blur sm:hidden">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
